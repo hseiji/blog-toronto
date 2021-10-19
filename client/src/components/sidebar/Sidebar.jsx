@@ -1,9 +1,21 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom';
+import axios from 'axios';
 import "./sidebar.css"
 
 
 export default function Sidebar() {
-    return (
+    const [cats, setCats] = useState([]);
+        
+    useEffect(() => {
+        const getCats = async () => {
+            const res = await axios.get("http://localhost:8000/categories/");
+            setCats(res.data);
+        }    
+        getCats();
+    }, []);
+
+    return (       
         <div className="sidebar">
             <div className="sidebarItem">
                 <span className="sidebarTitle">About</span>
@@ -12,26 +24,26 @@ export default function Sidebar() {
                     alt="" 
                 />
                 <p>
-                    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Alias ut, dignissimos quisquam modi et nobis numquam sapiente est tenetur perferendis quia mollitia, beatae excepturi quam, dolor nisi iusto unde esse?
+                    This blog contains the most famous places of the city of Toronto as well as the hidden gems that you must check it out. Please feel free to register and contribute with your favorites places and stories. 
                 </p>
             </div>
             <div className="sidebarItem">
                 <span className="sidebarTitle">Categories</span>
                 <ul className="sidebarList">
-                    <li className="sidebarListItem">Life</li>
-                    <li className="sidebarListItem">Sports</li>
-                    <li className="sidebarListItem">Foods</li>
-                    <li className="sidebarListItem">Movies</li>
-                    <li className="sidebarListItem">Tech</li>
+                    {cats.map(c => (
+                        <Link to={`/?cat=${c.name}`} className="link">
+                            <li className="sidebarListItem">{c.name}</li>    
+                        </Link>
+                    ))}
                 </ul>
             </div>
             <div className="sidebarItem">
                 <span className="sidebarTitle">Follow us:</span>
                 <div className="sidebarSocial">
-                    <i className="sidebarIcon fab fa-facebook"></i>
-                    <i className="sidebarIcon fab fa-twitter"></i>
-                    <i className="sidebarIcon fab fa-instagram"></i>
-                    <i className="sidebarIcon fab fa-pinterest"></i>
+                    <a href={"https://www.facebook.com/"} target="_blank" rel="noopener noreferrer"><i className="sidebarIcon fab fa-facebook"></i></a>
+                    <a href={"https://twitter.com/?lang=en"} target="_blank" rel="noopener noreferrer"><i className="sidebarIcon fab fa-twitter"></i></a>
+                    <a href={"https://www.instagram.com/"} target="_blank" rel="noopener noreferrer"><i className="sidebarIcon fab fa-instagram"></i></a>
+                    <a href={"https://www.pinterest.ca/"} target="_blank" rel="noopener noreferrer"><i className="sidebarIcon fab fa-pinterest"></i></a>
                 </div>
             </div>
         </div>

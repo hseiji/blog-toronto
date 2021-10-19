@@ -31,13 +31,15 @@
 
 .sidebarItem > img {
     margin-top: 15px;
-    width: 80%;
+    width: 75%;
     height: auto;
 }
 
 .sidebarItem > p {
     padding: 30px;
 }
+
+
 
 .sidebarList {
     list-style: none;
@@ -64,4 +66,5 @@
     font-size: 16px;
     margin-left: 15px;
     cursor: pointer;
+    text-decoration: none;
 }

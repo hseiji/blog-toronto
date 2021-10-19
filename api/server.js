@@ -2,12 +2,17 @@ const express = require('express');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const postRoute = require("./routes/posts");
+const authRoute = require("./routes/auth");
+const catRoute = require("./routes/categories");
+const userRoute = require("./routes/users");
 const app = express();
 const multer = require('multer');
-const axios = require('axios');
+const path = require('path');
 
 dotenv.config();
-app.use(express.json());
+app.use(express.json());  // https://www.geeksforgeeks.org/express-js-express-json-function/
+
+app.use("/images", express.static(path.join(__dirname,"/images")))
 
 // app.post('/', (req,res) => {
 //     const kitty = new Cat({ name: 'zuza'});
@@ -16,12 +21,13 @@ app.use(express.json());
 // })
 
 
+// Cors error 431
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
   });
-
 
 
 //Connect to DataBase (mongodb installed)
@@ -35,7 +41,24 @@ mongoose.connection
         console.log("the error:", error);
     });
 
+const storage = multer.diskStorage({
+    destination:(req, file, callback) => {
+        callback(null, "images");
+    }, 
+    filename:(req, file, callback) => {
+        callback(null, req.body.name);
+    }
+})
+
+const upload = multer({storage: storage});
+app.post("/upload", upload.single("file"),(req,res) => {
+    res.status(200).json("File has been uploaded.");
+})
+
 app.use('/posts', postRoute);
+app.use('/auth', authRoute);
+app.use('/categories', catRoute);
+app.use('/users', userRoute);
 
 
 // Start by listening to the server
@@ -43,9 +66,3 @@ app.listen(8000, () => {
     console.log('server started');
 });
 
-
-// const fetchPost = async () => {
-//     const res = await axios.get("mongodb://localhost:3000/posts");
-//     console.log(res);
-// }
-// fetchPost();

@@ -1,30 +1,32 @@
-import React from 'react'
+import React from 'react';
+import { Link } from 'react-router-dom';
 import "./singlepost.css";
 
-export default function SinglePost() {
+//SinglePost is a summary of the post in the Home page
+export default function SinglePost({ post }) {
+    const PF = "http://localhost:8000/images/"
+    
     return (
         <div className="singlepost">
-            <img 
-                className="postImg"
-                src="https://images.pexels.com/photos/1868676/pexels-photo-1868676.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260" 
-                alt="" 
-            />
+            <Link to={`/posts/${post._id}`}>
+                {post.photo && <img className="postImg" src={PF + post.photo} alt=""/>}
+            </Link>
             <div className="postInfo">
                 <div className="postCategories">
-                    <span className="postCat">Food</span>
-                    <span className="postCat">Places</span>
+                    {/* {(post.categories).forEach(element => {
+                       return <span className="postCat">{element}</span>
+                    })} */}                  
+                    {post.categories.map((c) => (
+                        <Link to={`/?cat=${c}`} className="link">
+                            <span className="postCat">{c}</span>
+                        </Link>
+                    ))}
                 </div>
-                <span className="postTitle">
-                    Lorem ipsum dolor sit amet 
-                </span>
-                <span className="postDate">
-                    1 hour ago
-                </span>
-                <p className="postDesc">
-                    Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nobis, fugiat suscipit. Laboriosam ab adipisci voluptas magni, quas explicabo natus odit eaque consequatur aut autem cumque recusandae voluptatum? Tempore, unde iure?
-                    Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nobis, fugiat suscipit. Laboriosam ab adipisci voluptas magni, quas explicabo natus odit eaque consequatur aut autem cumque recusandae voluptatum? Tempore, unde iure?
-                    Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nobis, fugiat suscipit. Laboriosam ab adipisci voluptas magni, quas explicabo natus odit eaque consequatur aut autem cumque recusandae voluptatum? Tempore, unde iure?
-                </p>
+                <Link to={`/posts/${post._id}`} className="link">
+                    <span className="postTitle">{post.title}</span>
+                </Link>
+                <span className="postDate">{new Date(post.createdAt).toDateString()}</span>
+                <p className="postDesc">{post.desc}</p>
             </div>
         </div>
     )

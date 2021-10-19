@@ -3,7 +3,6 @@ const Post = require('../models/Post');
 // const mongoose = require('mongoose');
 
 
-
 //Get ALL existing posts
 router.get('/', async (req,res) => {
     const username = req.query.user;
@@ -40,20 +39,9 @@ router.get('/:id', async (req,res) => {
         }
 });
 
-//Test
-// const Cat = mongoose.model('Cat', { name: String })
-// router.post('/test', async (req,res) => {
-//     try{
-//         const kitty = new Cat({ name: 'zuza'});
-//         kitty.save().then(() => console.log('meow'));
-//         console.log(kitty);   
-//     } catch (err) {
-//         res.status(500).json(err);
-//     }
-// });
-
 //Create Post
 router.post('/', async (req,res) => {
+    console.log(req.body);
     const newPost = new Post(req.body);
     try{
         const savedPost = await newPost.save();
@@ -67,7 +55,7 @@ router.post('/', async (req,res) => {
 router.put('/:id', async (req,res) => {
     try {
         const post = await Post.findById(req.params.id);
-        if(post.username === req.body.username) {
+        // if(post.username === req.body.username) {
             try {
                 const updatedPost = await Post.findByIdAndUpdate(
                     req.params.id, {
@@ -79,9 +67,9 @@ router.put('/:id', async (req,res) => {
             } catch (err) {
                 res.status(500).json(err);
             }
-        } else {
-            res.status(401).json("Please only update your posts.")
-        }
+        // } else {
+        //     res.status(401).json("Please only update your posts.")
+        // }
     } catch (err) {
         res.status(500).json(err);
     }
@@ -91,16 +79,16 @@ router.put('/:id', async (req,res) => {
 router.delete('/:id', async (req,res) => {
     try {
         const post = await Post.findById(req.params.id);
-        if(post.username === req.body.username) {
+        // if(post.username === req.body.username) {
             try {
                 await post.delete();
                 res.status(200).json("Post has been deleted.");
             } catch (err) {
                 res.status(500).json(err);
             }
-        } else {
-            res.status(401).json("Please only delete your own posts.")
-        }
+        // } else {
+        //     res.status(401).json("Please only delete your own posts.")
+        // }
     } catch (err) {
         res.status(500).json(err);
     }
