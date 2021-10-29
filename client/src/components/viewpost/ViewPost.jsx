@@ -19,14 +19,14 @@ export default function ViewPost() {
 
     useEffect(() => {
         const getPost = async () => {
-            const res  = await axios.get("http://localhost:8000/posts/" + pathId);
+            const res  = await axios.get("/posts/" + pathId); //http://localhost:8000/posts/
             setPost(res.data);
             setTitle(res.data.title);
             setDesc(res.data.desc);
             setCat(res.data.categories);
         }
         const getCats = async () => {
-            const res  = await axios.get("http://localhost:8000/categories/");
+            const res  = await axios.get("/categories/"); //http://localhost:8000/categories/
             setCats(res.data);
         }
         getPost();
@@ -35,7 +35,7 @@ export default function ViewPost() {
 
     const handleDelete = async () => {
         try {
-            await axios.delete("http://localhost:8000/posts/" + pathId);
+            await axios.delete("/posts/" + pathId); //http://localhost:8000/posts
             window.location.replace("/");
         } catch (err) {
 
@@ -44,7 +44,7 @@ export default function ViewPost() {
 
     const handleUpdate = async () => {
         try {
-            await axios.put("http://localhost:8000/posts/" + pathId, {
+            await axios.put("/posts/" + pathId, { //http://localhost:8000/posts/
                 title,
                 desc,
                 categories: cat,
@@ -55,7 +55,7 @@ export default function ViewPost() {
         }
     }
 
-    const PF = "http://localhost:8000/images/"
+    const PF = "http://localhost:8000/images/";
     return (
         <div className="viewpost">
             <div className="viewPostWrapper">

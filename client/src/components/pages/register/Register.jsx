@@ -18,7 +18,7 @@ export default function Register() {
                 email,
                 password
             }
-            const res = await axios.post("http://localhost:8000/auth/register", newUser);
+            const res = await axios.post("/auth/register", newUser); //http://localhost:8000/auth/register
             res.data && window.location.replace("/login"); //once user is registered it redirects to the login page
         } catch (error) {
             setError(true);

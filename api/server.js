@@ -31,7 +31,7 @@ app.use(function(req, res, next) {
 
 
 //Connect to DataBase (mongodb installed)
-mongoose.connect(process.env.MONGO_URL, {
+mongoose.connect(process.env.MONGO_URL2, {
     useNewUrlParser: true,
     useUnifiedTopology: true
 });
@@ -55,10 +55,10 @@ app.post("/upload", upload.single("file"),(req,res) => {
     res.status(200).json("File has been uploaded.");
 })
 
-app.use('/posts', postRoute);
-app.use('/auth', authRoute);
-app.use('/categories', catRoute);
-app.use('/users', userRoute);
+app.use('/api/posts', postRoute);
+app.use('/api/auth', authRoute);
+app.use('/api/categories', catRoute);
+app.use('/api/users', userRoute);
 
 
 // Start by listening to the server

@@ -17,7 +17,7 @@ export default function Edit() {
 
     useEffect(() => {
         const getCats = async () => {
-            const res = await axios.get("http://localhost:8000/categories/");
+            const res = await axios.get("/categories/");
             setCats(res.data);
         }    
         getCats();
@@ -46,7 +46,7 @@ export default function Edit() {
             }
         }
         try {
-            const res = await axios.post("http://localhost:8000/posts", newPost);
+            const res = await axios.post("/posts", newPost); //http://localhost:8000/posts
             window.location.replace("/posts/" + res.data._id);
         } catch (err) {
             setError(true);
